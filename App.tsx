@@ -1,18 +1,32 @@
 import { Component, ReactNode } from "react";
-import { Text, View, StyleSheet, ImageBackground } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import StartGameScreen from "./screens/startGameScreen";
 import LinearGradient from 'react-native-linear-gradient';
+import GameScreen from "./screens/GameScreen";
 
 interface Props {}
-interface State {}
+interface State {
+  userNumber:any
+}
 export default class App extends Component<Props, State> {
     constructor(props:Props){
         super(props);
         this.state = {
-
+            userNumber:null
         }
     }
+
+    pickedNumberHandler = (pickedNumber:any) => {
+      console.log(pickedNumber)
+          this.setState({userNumber: pickedNumber})
+    } 
+
     render(){
+        let screens = <StartGameScreen onConfirmNumber={this.pickedNumberHandler}/>
+
+        if(this.state.userNumber) {
+          screens = <GameScreen/>
+        }
 
         return (
           
@@ -25,7 +39,9 @@ export default class App extends Component<Props, State> {
             style={styles.rootScreen}
             imageStyle={styles.backgroundImage}
             >
-            <StartGameScreen/>
+              <SafeAreaView>
+                  {screens}
+              </SafeAreaView>
             </ImageBackground>
           </LinearGradient>
           
