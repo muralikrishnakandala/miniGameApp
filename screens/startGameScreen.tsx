@@ -2,6 +2,7 @@ import { Component, ReactNode } from "react";
 import { Text, View, StyleSheet, TextInput, Alert } from "react-native";
 import PrimaryButton from "../components/UI/PrimaryButton";
 import Title from "../components/UI/Title";
+import Colors from "../constants/Color";
 
 interface Props {onConfirmNumber:any}
 interface State {enteredNumber:any}
@@ -38,7 +39,7 @@ export default class StartGameScreen extends Component<Props, State> {
     render(){
 
         return (
-            <>
+            <View style={styles.screen}>
                 <Title>Guess My Number</Title>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -58,18 +59,22 @@ export default class StartGameScreen extends Component<Props, State> {
                     <PrimaryButton onPressButton={this.confirmInputHandler}>Confirm</PrimaryButton>               
                     </View>
                 </View>
-            </View></>
+            </View></View>
         ) 
         
     }
 }
 
 const styles = StyleSheet.create({
+    screen: {
+        flex:1,
+        padding:24
+    },
     inputContainer:{
         // flex:1,
         marginTop:100,
         marginHorizontal:24,
-        backgroundColor:'#3b021f',
+        backgroundColor:Colors.primary800,
         padding:16,
         borderRadius:8,
         elevation: 4, // only android  
@@ -84,9 +89,9 @@ const styles = StyleSheet.create({
      numberInput:{
         height:60,
         fontSize: 32,
-        borderBottomColor:'#ddb52f',
+        borderBottomColor:Colors.accent500,
         borderBottomWidth:2,
-        color:'#ddb52f',
+        color:Colors.accent500,
         marginVertical:8,
         fontWeight:'bold',
         width:60,

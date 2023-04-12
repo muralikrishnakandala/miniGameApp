@@ -3,34 +3,48 @@ import { Text, View, StyleSheet, ImageBackground, SafeAreaView } from "react-nat
 import StartGameScreen from "./screens/startGameScreen";
 import LinearGradient from 'react-native-linear-gradient';
 import GameScreen from "./screens/GameScreen";
+import Colors from "./constants/Color";
+import GameOverScreen from "./screens/GameOverScreen";
 
 interface Props {}
 interface State {
   userNumber:any
+  gameIsOver:any
 }
 export default class App extends Component<Props, State> {
     constructor(props:Props){
         super(props);
         this.state = {
-            userNumber:null
+            userNumber:null,
+            gameIsOver:true
         }
     }
 
-    pickedNumberHandler = (pickedNumber:any) => {
-      console.log(pickedNumber)
-          this.setState({userNumber: pickedNumber})
+    pickedNumberHandler = (pickedNumber:any) => {      
+        this.setState({userNumber: pickedNumber});
+        this.setState({gameIsOver: false});
     } 
+
+    gameOverHandler = () => {
+      this.setState({gameIsOver: true});
+    }
 
     render(){
         let screens = <StartGameScreen onConfirmNumber={this.pickedNumberHandler}/>
 
         if(this.state.userNumber) {
-          screens = <GameScreen/>
+          screens = <GameScreen userNumber={this.state.userNumber}
+          onGameOVer ={this.gameOverHandler}
+          />
+        }
+
+        if(this.state.gameIsOver && this.state.userNumber) {
+          screens = <GameOverScreen/>
         }
 
         return (
           
-          <LinearGradient colors={['#4e0329', '#ddb52f']}
+          <LinearGradient colors={[Colors.primary700, Colors.accent500]}
           style={styles.rootScreen}
           >
             <ImageBackground 
@@ -39,13 +53,12 @@ export default class App extends Component<Props, State> {
             style={styles.rootScreen}
             imageStyle={styles.backgroundImage}
             >
-              <SafeAreaView>
+              <SafeAreaView style={styles.rootScreen}>
                   {screens}
               </SafeAreaView>
             </ImageBackground>
           </LinearGradient>
-          
-           
+                   
         ) 
         
     }
@@ -53,7 +66,6 @@ export default class App extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   rootScreen:{
-    // backgroundColor:'#ddb52f',
     flex:1
   },
   backgroundImage:{
